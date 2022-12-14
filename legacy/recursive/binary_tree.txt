@@ -1,0 +1,34 @@
+max_sheep_cnt = 0
+visited = [False]*20
+tree = [[] for _ in range(20)]
+
+
+def move(sheep, wolf, movable, info):
+    global max_sheep_cnt
+
+    max_sheep_cnt = max(sheep, max_sheep_cnt)
+
+    if sheep <= wolf:
+        return
+
+    for i in movable:
+        if visited[i]:
+            continue
+
+        visited[i] = True
+
+        if info[i]:
+            move(sheep, wolf+1, movable + tree[i], info)
+        else:
+            move(sheep+1, wolf, movable + tree[i], info)
+
+        visited[i] = False
+
+
+def solution(info, edges):
+    global max_sheep_cnt
+    for i, j in edges:
+        tree[i].append(j)
+    move(1, 0, tree[0], info)
+
+    return max_sheep_cnt

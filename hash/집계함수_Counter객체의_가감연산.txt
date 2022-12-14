@@ -1,0 +1,8 @@
+# hash table 에 대한 Counter 객체끼리 연산이 가능하다는 점 #
+
+import collections
+
+def solution(participant, completion):
+    answer = collections.Counter(participant) - collections.Counter(completion)
+    return list(answer.keys())[0]
+

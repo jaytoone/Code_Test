@@ -1,0 +1,22 @@
+def var(list_x):
+    return mean([(x - mean(list_x))**2 for x in list_x])
+
+def std(x):
+    return sqrt(var(x))
+
+def cov(A, B):
+    mean_a = mean(A)
+    mean_b = mean(B)
+    return sum([(x - mean_a) * (y - mean_b) for x, y in zip(A, B)]) / min(len(A), len(B))
+
+# print(cov(a, b))   
+ 
+def corr(A, B):
+    return cov(A, B) / (std(A) * std(B))    
+
+def slope(X, Y):	# X is independent var.
+    xm, ym = mean(X), mean(Y)
+    return sum([(x-xm)*(y-ym) for x,y in zip(X,Y)])/sum([(x-xm)**2 for x in X])
+
+#for y(x) -> slope = cov(x,y)/var(x), and for x(y) -> slope = cov(y,x)/var(y)
+

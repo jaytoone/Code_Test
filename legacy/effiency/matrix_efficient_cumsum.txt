@@ -1,0 +1,40 @@
+# ------ 누적합 효율성 문제 ------ #
+def calculate(board, sboard, m, n):
+    ans = 0    
+    for i in range(n):
+        for j in range(m+1):    # m 원소까지 누적합 해주어야히나까
+            sboard[i+1][j] += sboard[i][j]
+
+    # for j in range(m):
+    #     for i in range(n+1):    
+    for i in range(n+1):    # n 원소까지 누적합 해주어야히나까
+        for j in range(m):
+            sboard[i][j+1] += sboard[i][j]
+
+    for i in range(n):
+        for j in range(m):
+            if board[i][j] + sboard[i][j] > 0:
+                ans += 1
+
+    return ans   
+
+def solution(board, skill):
+    answer = 0
+    m = len(board[0])
+    n = len(board)
+    sboard = [[0] * (m+1) for i in range(n+1)]
+
+    for tp, r1, c1, r2, c2, degree in skill:
+        if tp == 1:
+            degree = -degree
+        sboard[r1][c1] += degree
+        sboard[r1][c2+1] += -degree
+        sboard[r2+1][c1] += -degree
+        sboard[r2+1][c2+1] += degree
+
+
+    answer = calculate(board, sboard, m, n)
+
+
+
+    return answer

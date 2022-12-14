@@ -1,0 +1,67 @@
+# dx = [-1,0,1,0]
+# dy = [0,1,0,-1]
+dx = [0,1,0,-1]
+dy = [-1,0,1,0]
+N,M =0,0
+def B_turn(curboard,A,B,turn):
+    x,y = B 
+    if curboard[x][y] == 0:
+        return (-1,turn)
+    flag = False
+    winner = []
+    loser = []
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if 0<=nx<N and 0<=ny<M:
+            if curboard[nx][ny] == 1:
+                new_board = [row[:] for row in curboard]
+                new_board[x][y] = 0
+                iswin,new_turn = A_turn(new_board,A,(nx,ny),turn+1)
+                if iswin == -1:
+                    winner.append(new_turn)
+                else:
+                    loser.append(new_turn)
+                flag = True
+    if flag:
+        if winner:
+            return (1,min(winner))
+        else:
+            return (-1,max(loser))
+    else:
+        return (-1,turn)
+def A_turn(curboard,A,B,turn):
+    x,y = A 
+    if curboard[x][y] == 0:
+        return (-1,turn)
+    flag = False
+    winner = []
+    loser = []
+    for i in range(4):
+        nx = x + dx[i]
+        ny = y + dy[i]
+        if 0<=nx<N and 0<=ny<M:
+            if curboard[nx][ny] == 1:
+                new_board = [row[:] for row in curboard]
+                new_board[x][y] = 0
+                iswin,new_turn = B_turn(new_board,(nx,ny),B,turn+1)
+                if iswin == -1:
+                    winner.append(new_turn)
+                else:
+                    loser.append(new_turn)
+                flag = True
+    if flag:
+        if winner:
+            return (1,min(winner))
+        else:
+            return (-1,max(loser))
+    else:
+        return (-1,turn)
+
+def solution(board, aloc, bloc):
+    global N,M
+    N = len(board)
+    M = len(board[0])
+
+
+    return A_turn(board,aloc,bloc,0)[1]

@@ -1,0 +1,20 @@
+
+# ------ set / split / paring_idea ------ #
+def solution(id_list, report, k):
+    answer = [0] * len(id_list)
+    accused_dict = {x: 0 for x in id_list}  # 대상은 모든 이용자가 될 수 있음
+    # print(set(report))
+    
+    #   신고 받은 횟수 모두 카운팅
+    set_report = set(report)
+    
+    for pair_ in set_report:
+        accused_dict[pair_.split()[1]] += 1
+    print(accused_dict) 
+    
+    for pair_ in set_report:
+        accuser, accused = pair_.split()
+        if accused_dict[accused] >= k:
+            answer[id_list.index(accuser)] += 1
+            
+    return answer
